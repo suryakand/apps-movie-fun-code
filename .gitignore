@@ -3,3 +3,8 @@ target
 classes
 build
 .idea
+**/bin/**
+.classpath
+.project
+.settings/**
+/bin/
