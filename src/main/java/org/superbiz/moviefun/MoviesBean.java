@@ -16,24 +16,38 @@
  */
 package org.superbiz.moviefun;
 
-import javax.ejb.Stateless;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.EntityType;
-import java.util.List;
 
-@Stateless
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+@Repository
 public class MoviesBean {
 
-    @PersistenceContext(unitName = "movie-unit")
+	@Autowired
+    public MoviesBean(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+	
+    @PersistenceContext
     private EntityManager entityManager;
 
     public Movie find(Long id) {
         return entityManager.find(Movie.class, id);
     }
 
+    @Transactional
     public void addMovie(Movie movie) {
         entityManager.persist(movie);
     }
